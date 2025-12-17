@@ -1,0 +1,38 @@
+"evento": evento,
+"reloj": 0,
+"rnd_llegada1": rnd1,
+"tiempo_llegada1": tiempo_llegada1,
+"llegada1": tiempo_llegada1,
+"rnd_llegada2": rnd2,
+"tiempo_llegada2": tiempo_llegada2,
+"llegada2": tiempo_llegada2,
+"rnd_llegada3": rnd3,
+"tiempo_llegada3": tiempo_llegada3,
+"llegada3": tiempo_llegada3,
+"id_atendido": None,
+"rnd_trabajo": None,
+"duracion_trabajo": None,
+"rnd_correccion": None,
+"correccion": None,
+"fase": None,
+"fin_fase": None,
+"id_suspendido": None,
+"restante": None,
+"restante_fase": None,
+"estado_mecanografa": "libre",
+"cola": 0,
+"cola_prioridad": 0,
+"ac_espera": 0.0,
+"ac_tiempo_sistema": 0.0,
+"cont_trabajos": 0,
+"ultimo_cambio_cola": 0.0,
+"suma_area_cola": 0.0,
+
+@dataclass
+class Trabajo:
+    id: int
+    estado: str                 # esperando / siendo atendiendo / siendo corregido / suspendido / finalizado
+    llegada: float
+    prioridad: str              # normal / especial
+    duracion_trabajo: float
+    fin_correccion: Optional[float] = None

@@ -1,0 +1,21 @@
+events:
+  # Llegadas
+  media_llegada: 15.0
+
+  # Servicio
+  minimo_tiempo_servicio: 5.0
+  maximo_tiempo_servicio: 10.0
+
+  # Corrección
+  probabilidad_correccion: 0.06
+  duracion_correccion: 5.0
+
+simulation:
+  # Condiciones de corte
+  fin_trabajos_completos: 
+  fin_lineas:
+  fin_reloj: 120
+
+  # Semilla para generación de números aleatorios
+  semilla: 42
+  decimales: 2
