@@ -34,6 +34,7 @@ EVENT_COLUMNS_RENAME = {
     "cola": "Cola",
     "cola_prioridad": "Cola prioridad",
     "ac_espera": "Espera acumulada",
+    "cont_atendidos": "Trabajos atendidos",
     "ac_tiempo_sistema": "Tiempo en sistema acumulado",
     "cont_trabajos": "Trabajos completados",
     "ultimo_cambio_cola": "Último cambio cola",

@@ -77,7 +77,7 @@ def run_simulation(cfg):
 
         tabla.append(vector)
 
-    tiempo_espera_promedio = vector["ac_espera"] / vector["cont_trabajos"]
+    tiempo_espera_promedio = vector["ac_espera"] / vector["cont_atendidos"]
     longitud_cola_promedio = vector["suma_area_cola"] / reloj
     promedio_tiempo_sistema = vector["ac_tiempo_sistema"] / vector["cont_trabajos"]
 
@@ -127,6 +127,7 @@ def inicializar_vector():
         "cola": 0,
         "cola_prioridad": 0,
         "ac_espera": 0.0,
+        "cont_atendidos": 0.0,
         "ac_tiempo_sistema": 0.0,
         "cont_trabajos": 0,
         "ultimo_cambio_cola": 0.0,
@@ -154,6 +155,8 @@ def manejar_llegada1(reloj, anterior):
     restante_fase = anterior["restante_fase"]
 
     cola_prioridad = anterior["cola_prioridad"]
+
+    cont_atendidos = anterior["cont_atendidos"]
     ultimo_cambio = anterior["ultimo_cambio_cola"]
     suma_area = anterior["suma_area_cola"]
     
@@ -166,6 +169,7 @@ def manejar_llegada1(reloj, anterior):
         fase = "primera mitad"
         estado_mecanografa = "ocupada 1"
         estado_trabajo = "siendo atendido"
+        cont_atendidos += 1
     
     elif anterior["estado_mecanografa"] == "ocupada 1":
         cola_prioridad = anterior["cola_prioridad"] + 1
@@ -187,6 +191,7 @@ def manejar_llegada1(reloj, anterior):
         fase = "primera mitad"
         estado_mecanografa = "ocupada 1"
         estado_trabajo = "siendo atendido"
+        cont_atendidos += 1
 
     elif anterior["estado_mecanografa"] == "esperando correccion":
         id_atendido = nuevo_id
@@ -203,6 +208,7 @@ def manejar_llegada1(reloj, anterior):
         fase = "primera mitad"
         estado_mecanografa = "ocupada 1"
         estado_trabajo = "siendo atendido"
+        cont_atendidos += 1
 
     elif anterior["estado_mecanografa"] == "esperando correccion 1":
         cola_prioridad = anterior["cola_prioridad"] + 1
@@ -250,6 +256,7 @@ def manejar_llegada1(reloj, anterior):
         "cola": anterior["cola"],
         "cola_prioridad": cola_prioridad,
         "ac_espera": anterior["ac_espera"],
+        "cont_atendidos": cont_atendidos,
         "ac_tiempo_sistema": anterior["ac_tiempo_sistema"],
         "cont_trabajos": anterior["cont_trabajos"],
         "ultimo_cambio_cola": ultimo_cambio,
@@ -274,6 +281,8 @@ def manejar_llegada(reloj, anterior, numero_directivo):
     fin_fase = anterior["fin_fase"]
     
     cola = anterior["cola"]
+
+    cont_atendidos = anterior["cont_atendidos"]
     ultimo_cambio = anterior["ultimo_cambio_cola"]
     suma_area = anterior["suma_area_cola"]
 
@@ -287,6 +296,7 @@ def manejar_llegada(reloj, anterior, numero_directivo):
         
         estado_mecanografa = "ocupada"
         estado_trabajo = "siendo atendido"
+        cont_atendidos += 1
 
     else:
         cola = anterior["cola"] + 1
@@ -351,6 +361,7 @@ def manejar_llegada(reloj, anterior, numero_directivo):
         "cola": cola,
         "cola_prioridad": anterior["cola_prioridad"],
         "ac_espera": anterior["ac_espera"],
+        "cont_atendidos": cont_atendidos,
         "ac_tiempo_sistema": anterior["ac_tiempo_sistema"],
         "cont_trabajos": anterior["cont_trabajos"],
         "ultimo_cambio_cola": ultimo_cambio,
@@ -404,6 +415,7 @@ def manejar_chequeo_correccion(reloj, anterior, id_atendido):
         "cola": anterior["cola"],
         "cola_prioridad": anterior["cola_prioridad"],
         "ac_espera": anterior["ac_espera"],
+        "cont_atendidos": anterior["cont_atendidos"],
         "ac_tiempo_sistema": anterior["ac_tiempo_sistema"],
         "cont_trabajos": anterior["cont_trabajos"],
         "ultimo_cambio_cola": anterior["ultimo_cambio_cola"],
@@ -449,6 +461,7 @@ def manejar_fin_correccion(reloj, anterior, id_atendido):
         "cola": anterior["cola"],
         "cola_prioridad": anterior["cola_prioridad"],
         "ac_espera": anterior["ac_espera"],
+        "cont_atendidos": anterior["cont_atendidos"],
         "ac_tiempo_sistema": anterior["ac_tiempo_sistema"],
         "cont_trabajos": anterior["cont_trabajos"],
         "ultimo_cambio_cola": anterior["ultimo_cambio_cola"],
@@ -491,6 +504,7 @@ def manejar_fin_correcion_suspendido(reloj, anterior, id):
         "cola": anterior["cola"],
         "cola_prioridad": anterior["cola_prioridad"],
         "ac_espera": anterior["ac_espera"],
+        "cont_atendidos": anterior["cont_atendidos"],
         "ac_tiempo_sistema": anterior["ac_tiempo_sistema"],
         "cont_trabajos": anterior["cont_trabajos"],
         "ultimo_cambio_cola": anterior["ultimo_cambio_cola"],
@@ -514,6 +528,7 @@ def manejar_fin_servicio(reloj, anterior, id_atendido):
 
     ac_espera = anterior["ac_espera"]
     tiempo_sistema = reloj - trabajos[id_atendido - 1]["llegada"]
+    cont_atendidos = anterior["cont_atendidos"]
     ac_tiempo_sistema = anterior["ac_tiempo_sistema"] + tiempo_sistema
     cont_trabajos = anterior["cont_trabajos"] + 1
 
@@ -542,6 +557,7 @@ def manejar_fin_servicio(reloj, anterior, id_atendido):
             estado_mecanografa = "ocupada 1"
             espera = reloj - trabajos[nueva_id - 1]["llegada"]
             ac_espera = anterior["ac_espera"] + espera
+            cont_atendidos += 1
         
         cola_prioridad = anterior["cola_prioridad"] - 1
 
@@ -584,6 +600,7 @@ def manejar_fin_servicio(reloj, anterior, id_atendido):
             estado_mecanografa = "ocupada"
             espera = reloj - trabajos[nueva_id - 1]["llegada"]
             ac_espera = anterior["ac_espera"] + espera
+            cont_atendidos += 1
         
         cola = anterior["cola"] - 1
         cola_prioridad = anterior["cola_prioridad"]
@@ -626,6 +643,7 @@ def manejar_fin_servicio(reloj, anterior, id_atendido):
         "cola": cola,
         "cola_prioridad": cola_prioridad,
         "ac_espera": ac_espera,
+        "cont_atendidos": cont_atendidos,
         "ac_tiempo_sistema": ac_tiempo_sistema,
         "cont_trabajos": cont_trabajos,
         "ultimo_cambio_cola": ultimo_cambio,

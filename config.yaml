@@ -17,5 +17,5 @@ simulation:
   fin_reloj: 120
 
   # Semilla para generación de números aleatorios
-  semilla: 42
+  semilla: 
   decimales: 2
