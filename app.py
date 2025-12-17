@@ -38,7 +38,7 @@ EVENT_COLUMNS_RENAME = {
     "ac_tiempo_sistema": "Tiempo en sistema acumulado",
     "cont_trabajos": "Trabajos completados",
     "ultimo_cambio_cola": "Último cambio cola",
-    "suma_area_cola": "Área bajo la cola",
+    "suma_area_cola": "Suma de tiempo en cola",
 }
 
 JOB_FIELD_RENAME = {
